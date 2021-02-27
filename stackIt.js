@@ -30,7 +30,7 @@ function setup() {
 //functie kijkt op er op de spatiebalk gedrukt wordt
 function keyPressed() {
     if (keyCode === 32) { //als knop 32 (spatiebalk) is ingedrukt
-        inGame = true;
+        inGame = true; 
     }
 }
 
@@ -39,11 +39,11 @@ function gameStep() {
     moveWall()
     showWall(kolom, rij, gat) // muur tekenen
     rijBeneden()
-    joystickLinks()
+    joystickBeweeg()
 }
 //deze functie zorgt ervoor dat de joystick naar links gaat ipv te "teleporteren"
-function joystickLinks() {
-    if (isDropping == true) {
+function joystickBeweeg() {
+    if (isDropping == true) {//als isDropping = true gaan de rijen naar beneden, anders kolommen naar links
         if (ry < HEIGHT - 1) { //zolang ry kleiner is dan 7, gaat cy+1
             ry = ry + 1
             matrix.setLed(ry, cy, true, color('white'))
@@ -67,28 +67,28 @@ function gatKiezen() {
     gat = Math.floor(Math.random() * (WIDTH - 1)) //random getal tussen 0 en 7
 }
 
-//zorgt ervoor dat de muur naar beneden gaat
+//zorgt ervoor dat de muur naar beneden/naar links gaat
 function moveWall() {
     if (inGame == true) { //als er op de spatiebalk is gedrukt
-        if (isDropping == true) {
+        if (isDropping == true) {//als isDropping = true gaan de rijen naar beneden, anders kolommen naar links
             if (rij == HEIGHT - 1) { //als de rij beneden is gaat hij terug helemaal naar boven
                 rij = 0
             } else { //als de rij niet beneden is, altijd stap voor stap naar beneden
                 rij++
             }
         } else {
-            if (kolom == 0) {
+            if (kolom == 0) { //als de rij links is gaat hij terug helemaal naar rechts
                 kolom = HEIGHT - 1
-            } else {
+            } else {//als de rij niet helemaal links is, altijd stap voor stap naar links
                 kolom = kolom - 1
             }
         }
     }
 }
-// laat hele rij branden behalve 1 led
+// laat hele rij/kolom branden behalve 1 led
 function showWall(c, r, gat) {
     if (inGame == true) {
-        if (isDropping == true) {
+        if (isDropping == true) {//als isDropping = true gaan de rijen naar beneden, anders kolommen naar links
             for (let c = 0; c < WIDTH; c++) {
                 if (c != gat) { //alle ledjes die niet gelijk zijn aan het gat gaan branden
                     showLed(r, c)
@@ -152,7 +152,7 @@ function scoreVerhogen() {
 }
 //deze functie controleert of de rij beneden is
 function rijBeneden() {
-    if (isDropping == true) {
+    if (isDropping == true) {//als isDropping = true gaan de rijen naar beneden, anders kolommen naar links
         if (rij == HEIGHT - 1) {
             if (cy != gat) { //als de rij beneden is en als de speler niet gelijk is aan het gat
                 dood()
